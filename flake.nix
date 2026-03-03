@@ -33,10 +33,15 @@
             packages = packages;
 
             shellHook = ''
-              export NIX_SHELL_PROMPT="${name}> "
-              mkdir -p "$PWD"/{loot,reports,wordlists,tmp}
-              echo "Loaded ${name} (${system})"
-            '';
+  		export NIX_SHELL_PROMPT="${name}> "
+  		mkdir -p "$PWD"/{loot,reports,wordlists,tmp}
+  		# macOS locale vars sometimes reference locales not available in the nix shell env
+  		unset LC_COLLATE
+  		unset LC_ALL
+  		# set a safe default (C is always available)
+   		export LANG=C.UTF-8
+  		echo "Loaded ${name} (${system})"
+		''; 
           };
 
         # Convenience bundles that many people want
